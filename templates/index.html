@@ -1,31 +1,48 @@
 <!DOCTYPE html>
+<html>
+<head>
 <meta charset="utf-8">
-<title>CrawlMaze - Testbed for Web Crawlers.</title>
-<h1>
-  Welcome to the Security Crawl Maze!
-</h1>
+<title>Welcome to TechYOW</title>
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+{% endblock %}
+</head>
+
+<body>
+<h1>TechYOW - Air Travel made 💸</h1>
+
 <p>
-  Security Crawl Maze is a comprehensive testbed for web security crawlers.
-  It contains pages representing many (hopefully all) ways in which one can link resources from a valid HTML document.
+    TechYOW is the next unicorn startup
+    with 42 years<a id="footnote-1-ref" href="#footnote-1">*</a> of experience
+    dedicated to revolutionize the Air Travel industry
+    by developing Non-natural Intellectual ability (NI)
+    with Device Learning (DL) techobabbles
+    to solve the Indeterministic Sub-exponential-time uneasy (IS-uneasy)
+    Mobile Salesperson Problem (MSP).
 </p>
-<p>
-  If you want to find out more, please see our GitHub <a href="https://github.com/google/security-crawl-maze">repository</a>.
-</p>
-<h2> Test cases </h2>
+
+<h2>🚧 Under Construction 🚧</h2>
+
+<h3>Test cases</h3>
+
 <ul>
-  <li>
-    <a href="/css/">CSS</a>
-  </li>
-  <li>
-    <a href="/headers/">Response headers</a>
-  </li>
-  <li>
-    <a href="/html/">HTML</a>
-  </li>
-  <li>
-    <a href="/javascript/">JavaScript</a>
-  </li>
-  <li>
-    <a href="/misc/">Misc</a>
-  </li>
+    <li><a href="/css/">CSS</a></li>
+    <li><a href="/headers/">Response headers</a></li>
+    <li><a href="/html/">HTML</a></li>
+    <li><a href="/javascript/">JavaScript</a></li>
+    <li><a href="/misc/">Misc</a></li>
 </ul>
+
+<p id="footnote-1">
+   *Hamster years
+   <a href="#footnote-1-ref">&#8617;</a>
+</p>
+
+<hr>
+
+<p>
+    Powered by <a href="https://github.com/google/security-crawl-maze">Security Crawl Maze</a>
+</p>
+
+</body>
+</html>

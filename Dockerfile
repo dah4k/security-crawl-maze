@@ -51,6 +51,7 @@ RUN pip install -r /usr/src/app/requirements.txt
 # Copy all the files.
 COPY app.py /usr/src/app/
 COPY blueprints /usr/src/app/blueprints
+COPY static /usr/src/app/static
 COPY templates /usr/src/app/templates
 COPY test-cases /usr/src/app/test-cases
 
