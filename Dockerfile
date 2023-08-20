@@ -48,11 +48,7 @@ RUN apk add --no-cache python3 && \
 COPY requirements.txt /usr/src/app/
 RUN pip install -r /usr/src/app/requirements.txt
 
-# Copy all the files.
-COPY app.py /usr/src/app/
-COPY blueprints /usr/src/app/blueprints
-COPY static /usr/src/app/static
-COPY templates /usr/src/app/templates
+# First copy test-cases
 COPY test-cases /usr/src/app/test-cases
 
 # Remove source files and copy single page app bundles from the builder image.
@@ -65,6 +61,12 @@ COPY --from=builder /tmp/polymer/build/default /usr/src/app/test-cases/javascrip
 # React
 RUN rm -rf /usr/src/app/test-cases/javascript/frameworks/react/*
 COPY --from=builder /tmp/react/build /usr/src/app/test-cases/javascript/frameworks/react
+
+# Finally copy all remaining files
+COPY blueprints /usr/src/app/blueprints
+COPY templates /usr/src/app/templates
+COPY static /usr/src/app/static
+COPY app.py /usr/src/app/
 
 # Run the application. Default port is 8080.
 # If you want to change it, pass a $PORT env variable.
