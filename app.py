@@ -27,6 +27,7 @@ from flask_socketio import SocketIO, send, emit
 
 # Modified from https://gist.github.com/Ninja243/40840abde56467b528b5c8582ce23ec8
 # (forked from https://gist.github.com/phoemur/461c97aa5af5c785062b7b4db8ca79cd)
+# Matrix Rain from https://stackoverflow.com/questions/67136032/how-to-make-the-matrix-background-render-behind-page-content
 HTML = '''
 <html>
     <head>
@@ -64,16 +65,75 @@ HTML = '''
                 window.location.href = 'http://' + location.hostname + ':' + location.port;
             }
         </script>
+        <style>
+        body {
+          margin: 0;
+          background-color: #000;
+        }
+        .container {
+          background-color: rgba(255, 255, 255, 0.85);
+          margin: 50px 10%;
+          padding: 3rem;
+          position: relative;
+          z-index: 1;
+        }
+        #text {
+          max-width: 100%;
+        }
+        #canv {
+          position: fixed;
+          top: 0;
+          left: 0;
+        }
+        </style>
     </head>
     <body>
-        <h1>Admin Panel</h1>
-        <div id="admin"></div><br><br>
-        <input id="text" size="80" placeholder="Enter commands here"><br><br>
-        <a href="#" onclick="leave_room();">Return to Homepage</a>
-    <footer>
-        <hr>
-        <p>Powered by <b>Setec Astronomy</b> (as-a-Service)</p>
-    </footer>
+        <div class='container'>
+          <div id="admin"></div><br><br>
+          <input id="text" size="80" placeholder="Enter command here"><br><br>
+          <a href="#" onclick="leave_room();">EXIT</a>
+        </div>
+        <canvas id='canv'></canvas>
+        <script>
+        const canvas = document.getElementById('canv');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+        let cols = Math.floor(window.innerWidth / 20) + 1;
+        let ypos = Array(cols).fill(0);
+
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        function matrix () {
+          const w = window.innerWidth;
+          const h = window.innerHeight;
+
+          if (canvas.width !== w) {
+            canvas.width = w;
+            cols = Math.floor(window.innerWidth / 20) + 1;
+            ypos = Array(cols).fill(0);
+          }
+          if (canvas.height !== h) {
+            canvas.height = h;
+          }
+
+          ctx.fillStyle = '#0001';
+          ctx.fillRect(0, 0, w, h);
+
+          ctx.fillStyle = '#0f0';
+          ctx.font = '15pt monospace';
+
+          ypos.forEach((y, ind) => {
+            const text = String.fromCharCode(Math.random() * 128);
+            const x = ind * 20;
+            ctx.fillText(text, x, y);
+            if (y > 100 + Math.random() * 10000) ypos[ind] = 0;
+            else ypos[ind] = y + 20;
+          });
+        }
+        setInterval(matrix, 50);
+        </script>
     </body>
 </html>
 '''
