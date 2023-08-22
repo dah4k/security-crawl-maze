@@ -32,23 +32,28 @@ HTML = '''
 <html>
     <head>
         <title>Admin Panel</title>
-        <script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js" integrity="sha512-Xm9qbB6Pu06k3PUwPj785dyTl6oHxgsv9nHp7ej7nCpAqGZT3OZpsELuCYX05DdonFpTlBpXMOxjavIAIUwr0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js" integrity="sha512-Xm9qbB6Pu06k3PUwPj785dyTl6oHxgsv9nHp7ej7nCpAqGZT3OZpsELuCYX05DdonFpTlBpXMOxjavIAIUwr0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script type="text/javascript" charset="utf-8">
             var socket;
             $(document).ready(function(){
+                {
+                    var p = document.createElement('pre');
+                    p.textContent = "[*] Connecting..."
+                    document.getElementById('admin').appendChild(p);
+                }
                 socket = io.connect('http://' + location.hostname + ':' + location.port + '/admin');
                 socket.on('connect', function() {
                     socket.emit('joined', {});
                 });
                 socket.on('message', function(data) {
                     var p = document.createElement('pre');
-                    p.innerHTML = data.msg;
+                    p.textContent = data.msg;
                     document.getElementById('admin').appendChild(p);
                 });
                 socket.on('status', function(data) {
                     var p = document.createElement('pre');
-                    p.innerHTML = data.msg;
+                    p.textContent = data.msg;
                     document.getElementById('admin').appendChild(p);
                 });
                 $('#text').keypress(function(e) {
@@ -66,24 +71,56 @@ HTML = '''
             }
         </script>
         <style>
+        html {
+          color-scheme: dark !important;
+        }
         body {
           margin: 0;
           background-color: #000;
         }
         .container {
-          background-color: rgba(255, 255, 255, 0.85);
+          background-color: rgba(25, 25, 25, 0.85);
+          border-radius: 15px;
           margin: 50px 10%;
-          padding: 3rem;
+          padding: 2rem;
           position: relative;
           z-index: 1;
         }
         #text {
           max-width: 100%;
+          border-radius: 5px;
+          padding: 0.3rem;
+          padding-left: 0.5rem;
         }
         #canv {
           position: fixed;
           top: 0;
           left: 0;
+        }
+        #exit {
+          position: absolute;
+          top: 10px;
+          right: 12px;
+        }
+        /* https://www.w3schools.com/Css/tryit.asp?filename=trycss_link_advanced2 */
+        a {
+          font-family: monospace;
+          font-size: 1rem;
+          padding: 5px 10px;
+          border-radius: 10px;
+          text-align: center;
+          text-decoration: none;
+          display:inline-block;
+        }
+        a:link, a:visited {
+          background-color: inherit;
+          color: rgba(255, 255, 255, 0.25);
+          border: 2px solid rgba(255, 255, 255, 0.25);
+        }
+        a:hover, a:active {
+          background-color: rgba(100, 0, 0, 0.85);
+          color: white;
+          border: 2px solid rgba(200, 0, 0, 0.85);
         }
         </style>
     </head>
@@ -91,7 +128,7 @@ HTML = '''
         <div class='container'>
           <div id="admin"></div><br><br>
           <input id="text" size="80" placeholder="Enter command here"><br><br>
-          <a href="#" onclick="leave_room();">EXIT</a>
+          <div id="exit"><a href="#" onclick="leave_room();">EXIT</a></div>
         </div>
         <canvas id='canv'></canvas>
         <script>
